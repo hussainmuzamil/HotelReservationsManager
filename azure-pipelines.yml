@@ -20,7 +20,7 @@ steps:
 - task: VSBuild@1
   displayName: 'Build solution'
   inputs:
-    solution: '$(solution)'
+    solution: src/HotelReservationsManager.sln
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 - task: CopyFiles@2
