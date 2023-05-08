@@ -18,9 +18,15 @@ steps:
     restoreSolution: '$(solution)'
     feedsToUse: 'select'
 - task: VSBuild@1
-  displayName: 'Build solution'
+  displayName: build '0*/**/*.sln'
   inputs:
-    solution: src/HotelReservationsManager.sln
+    solution: '0*/**/*.sln'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)' 
+- task: VSBuild@1
+  displayName: build '1*/**/*.sln'
+  inputs:
+    solution: '1*/**/*.sln'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 - task: CopyFiles@2
