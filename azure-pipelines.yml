@@ -1,0 +1,33 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- master
+pool:
+  vmImage: 'windows-latest'
+steps:
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet'
+  inputs:
+    versionSpec: '5.0.0'
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    restoreSolution: '$(solution)'
+    feedsToUse: 'select'
+- task: VSBuild@1
+  displayName: 'Build solution'
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+- task: CopyFiles@2
+  displayName: 'Copy files to artifact staging directory'
+  inputs:
+    SourceFolder: '$(build.sourcesDirectory)'
+    Contents: '**\bin\$(BuildConfiguration)\**'
+    TargetFolder: '$(build.artifactStagingDirectory)'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish build artifacts'
